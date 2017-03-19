@@ -10,7 +10,7 @@ const styles = StyleSheet.create({
     borderBottomColor: '#ddd',
     paddingTop: 10,
     paddingBottom: 10
-  }, 
+  },
   h2: {
     fontWeight: '800',
     color: '#444',
@@ -32,18 +32,18 @@ const styles = StyleSheet.create({
 });
 
 const Row = (props) => (
-    <View style={styles.tableRow}>
-          <View style={styles.leftTableEntry}>
-            <Image
-              source={ require('./Images/logo.png') }
-              style={styles.tableEntryImage}
-            />
-          </View>
-          <View style={styles.rightTableEntry}>
-            <Text style={styles.h2}>{props.id}</Text>
-            <Text style={styles.text}>{props.content}</Text>
-          </View>
+  <View style={styles.tableRow}>
+    <View style={styles.leftTableEntry}>
+      <Image
+        source={require(`./Images/img${Math.random() * 6 + 1}.png`)}
+        style={styles.tableEntryImage}
+      />
     </View>
+    <View style={styles.rightTableEntry}>
+      <Text style={styles.h2}>{props.id}</Text>
+      <Text style={styles.text}>{props.content}</Text>
+    </View>
+  </View>
 );
 
 export default Row;
