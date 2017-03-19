@@ -33,8 +33,46 @@ class grfiti extends Component {
       component: CreateNewScreen,
       title: "Create New",
     })
-
   }
+
+  _fetchData() {
+    // var myRequest = new Request('http://ec2-54-214-229-156.us-west-2.compute.amazonaws.com/content?lat=547761&long=-1370443',{
+    //   method: 'GET',
+    //   headers: {
+    //     'Accept': 'application/json',
+    //     'Content-Type': 'application/json',
+    //   }
+    // });
+
+    fetch('http://ec2-54-214-229-156.us-west-2.compute.amazonaws.com/content?lat=547761&long=-1370443',{
+        method: 'GET',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json',
+        }
+      })
+      .then((response) => response.json())
+      .then((responseJson) => {
+        // console.log(responseJson);
+        // this.state = {
+        //   dataSource: responseJson.content,
+        // };
+
+        AlertIOS.alert(
+                "GET Response",
+                "Search Query -> " + responseData.search
+            )
+      })
+      .catch((error) => {
+        console.error(error);
+      })
+      .done();
+    }
+
+  // componentWillMount() {
+  //   this._fetchData();
+  // }
+
   render() {
     return (
       <NavigatorIOS
