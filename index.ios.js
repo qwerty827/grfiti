@@ -9,8 +9,13 @@ import {
   View
 } from 'react-native';
 
+var EventEmitter = require('EventEmitter');
+var Subscribable = require('Subscribable');
+
 var ListViewScreen = require('./ListView');
 var CreateNewScreen = require('./CreateNew');
+
+var rightButtonHandler = new CreateNewScreen();
 
 'use strict'
 
@@ -32,9 +37,20 @@ class grfiti extends Component {
     this.refs.nav.push({
       component: CreateNewScreen,
       title: "Create New",
+      rightButtonTitle: "Save",
+      onRightButtonPress: () => this.onRightButtonPress(),
+      passProps: {events: eventEmitter},
     })
-
   }
+
+  componentWillMount() {
+    this.eventEmitter = new EventEmitter();
+  }
+
+  onRightButtonPress() {
+    this.eventEmitter.emit('myRightBtnEvent');
+  }
+
   render() {
     return (
       <NavigatorIOS

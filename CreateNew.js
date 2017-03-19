@@ -27,8 +27,13 @@ class CreateScreen extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      text: '',
+      text: 'Tristan Rice',
     };
+  }
+
+  Save() {
+      console.log("Hello");
+      console.log(this.state.text);
   }
 
   render() {
