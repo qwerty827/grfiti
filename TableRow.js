@@ -31,20 +31,28 @@ const styles = StyleSheet.create({
   }
 });
 
-const Row = (props) => (
-  <View style={styles.tableRow}>
-    <View style={styles.leftTableEntry}>
-      <Image
-        source={imagePaths[parseInt(Math.random() * 6)]}
-        style={styles.tableEntryImage}
-      />
+const Row = (props) => {
+  let userText; 
+  if(props.userName !== null) {
+    userText = (<Text style={styles.h2}>{props.userName}</Text>);
+  }  else {
+     userText = (<Text style={styles.h2}>{props.id}</Text>);
+  }
+  return (
+    <View style={styles.tableRow}>
+      <View style={styles.leftTableEntry}>
+        <Image
+          source={imagePaths[parseInt(Math.random() * 6)]}
+          style={styles.tableEntryImage}
+        />
+      </View>
+      <View style={styles.rightTableEntry}>
+        {userText}
+        <Text style={styles.text}>{props.content}</Text>
+      </View>
     </View>
-    <View style={styles.rightTableEntry}>
-      <Text style={styles.h2}>{props.id}</Text>
-      <Text style={styles.text}>{props.content}</Text>
-    </View>
-  </View>
-);
+    );
+}
 
 var imagePaths = [
   require("./Images/img1.png"),

@@ -66,7 +66,6 @@ class grfiti extends Component {
 
   onRightButtonPress() {
     console.log("SAVE PRESSED!", this.state.saveText);
-    console.warn(this.state.userName);
 
     let content = {
       type: "text",
