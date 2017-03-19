@@ -106,15 +106,10 @@ class grfiti extends Component {
       })
       .then((response) => response.json())
       .then((responseJson) => {
-        // console.log(responseJson);
-        // this.state = {
-        //   dataSource: responseJson.content,
-        // };
-
-        AlertIOS.alert(
-                "GET Response",
-                "Search Query -> " + responseData.search
-            )
+        console.log(responseJson);
+        this.state = {
+          dataSource: responseJson.content,
+        };
       })
       .catch((error) => {
         console.error(error);
@@ -122,9 +117,9 @@ class grfiti extends Component {
       .done();
     }
 
-  // componentWillMount() {
-  //   this._fetchData();
-  // }
+  componentWillMount() {
+    this._fetchData();
+  }
 
   render() {
     return (

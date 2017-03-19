@@ -40,7 +40,7 @@ const Row = (props) => (
           />
         </View>
         <View style={styles.rightTableEntry}>
-          <Text style={styles.h2}>Username</Text>
+          <Text style={styles.h2}>{props.content}</Text>
           <Text style={styles.text}>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</Text>
         </View>
   </View>
