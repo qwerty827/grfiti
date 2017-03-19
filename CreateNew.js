@@ -18,8 +18,17 @@ var styles = StyleSheet.create({
     margin: 80,
     fontSize: 16,
   },
-  container: {
+  formContainer: {
     flex: 1,
+    backgroundColor: "#fff",
+    bottom: 0,
+    paddingTop: 80,
+    paddingLeft: 20
+  },
+  formText: {
+    flex: 60, 
+    color: "#444",
+    fontSize: 16
   }
 });
 
@@ -31,13 +40,15 @@ class CreateScreen extends Component {
 
   render() {
     return (
-      <View style={{backgroundColor:'white'}}>
-        <Text>text</Text>
+      <View style={styles.formContainer}>
         <TextInput 
-          style={{height: 500}} 
+          placeholder="What's happening?"
+          autofocus={true}
+          style={styles.formText} 
           value={this.props.saveText}
           onChangeText={(text) => this.updateText(text)}
-          multiline = {true} 
+          multiline = {true}
+          numberOfLines = {8} 
         />
       </View>
     );
