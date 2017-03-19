@@ -10,6 +10,7 @@ import {
 } from 'react-native';
 
 import TableRow from './TableRow';
+import SearchHeader from './SearchHeader';
 
 var styles = StyleSheet.create({
   text: {
@@ -23,8 +24,6 @@ var styles = StyleSheet.create({
     flex: 3,
     flexDirection: 'row',
     backgroundColor: '#fff',
-    borderBottomWidth: 0.5,
-    borderBottomColor: '#ddd',
     paddingTop: 10,
     paddingBottom: 10
   }, 
@@ -45,6 +44,11 @@ var styles = StyleSheet.create({
   tableEntryImage: {
     width: 80,
     height: 80
+  },
+  separator: {
+    flex: 1,
+    height: StyleSheet.hairlineWidth,
+    backgroundColor: '#8E8E8E',
   }
 });
 
@@ -54,75 +58,46 @@ class ListViewScreen extends Component {
 
     const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
     this.state = {
-      dataSource: ds.cloneWithRows(['row 1', 'row 2', 'row3', 'row 1', 'row 2', 'row3']),
+      dataSource: ds.cloneWithRows(['row 1', 'row 2']),
     };
   }
 
+  _fetchData() {
+    var requestUrl = 'http://ec2-54-214-229-156.us-west-2.compute.amazonaws.com/content?lat=547761&long=-1370443';
 
-  // _fetchData() {
-  //   // var myRequest = new Request('http://ec2-54-214-229-156.us-west-2.compute.amazonaws.com/content?lat=547761&long=-1370443',{
-  //   //   method: 'GET',
-  //   //   headers: {
-  //   //     'Accept': 'application/json',
-  //   //     'Content-Type': 'application/json',
-  //   //   }
-  //   // });
+    fetch(requestUrl, {
+        method: 'GET',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json',
+        }
+      })
+      .then((response) => response.json())
+      .then((responseJson) => {
+        console.log(responseJson);
+        this.setState({
+          dataSource: this.state.dataSource.cloneWithRows(responseJson)
+        });
+      })
+      .catch((error) => {
+        console.error(error);
+      })
+      .done();
+    }
 
-  //   fetch('http://ec2-54-214-229-156.us-west-2.compute.amazonaws.com/content?lat=547761&long=-1370443',{
-  //       method: 'GET',
-  //       headers: {
-  //         'Accept': 'application/json',
-  //         'Content-Type': 'application/json',
-  //       }
-  //     })
-  //     .then((response) => response.json())
-  //     .then((responseJson) => {
-  //       this.setState({
-  //         dataSource: this.state.dataSource.cloneWithRows(responseJson.content),
-  //         loaded: true,
-  //       });
-  //     })
-  //     .catch((error) => {
-  //       console.error(error);
-  //     })
-  //     .done();
-
-  // //   var request = new XMLHttpRequest();
-    
-  // //   request.onreadystatechange = (e) => {
-  // //   if (request.readyState !== 4) {
-  // //     return;
-  // //   }
-
-  // //   if (request.status === 200) {
-  // //     console.log('success', request.responseText);
-  // //   } else {
-  // //     console.warn(request.status);
-  // //   }
-  // // };
-
-  // // request.open('GET', 'http://ec2-54-214-229-156.us-west-2.compute.amazonaws.com/content?lat=547761&long=-1370443');
-  // // request.setRequestHeader({
-  // //     'Accept': 'application/json',
-  // //     'Content-Type': 'application/json'
-  // // });
-  // // request.send();
-
-
-  // }
-
-  // componentWillMount() {
-  //   this._fetchData();
-  // }
-
+  componentWillMount() {
+    this._fetchData();
+  }
 
   render() {
     return (
       <ListView
         style={styles.container}
         dataSource={this.state.dataSource}
-        renderRow={(data) => <TableRow {...data} />}
-      />
+        renderRow={(data) => <TableRow {...data} /> }
+        renderSeparator={(sectionId, rowId) => <View key={rowId} style={styles.separator} /> }
+        renderHeader={() => <SearchHeader />}
+        />
     );
   }
 }

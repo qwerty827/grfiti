@@ -32,18 +32,18 @@ const styles = StyleSheet.create({
 });
 
 const Row = (props) => (
-  <View style={styles.tableRow}>
-        <View style={styles.leftTableEntry}>
-          <Image
-            source={ require('./Images/logo.png') }
-            style={styles.tableEntryImage}
-          />
-        </View>
-        <View style={styles.rightTableEntry}>
-          <Text style={styles.h2}>{props.content}</Text>
-          <Text style={styles.text}>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</Text>
-        </View>
-  </View>
+    <View style={styles.tableRow}>
+          <View style={styles.leftTableEntry}>
+            <Image
+              source={ require('./Images/logo.png') }
+              style={styles.tableEntryImage}
+            />
+          </View>
+          <View style={styles.rightTableEntry}>
+            <Text style={styles.h2}>{props.id}</Text>
+            <Text style={styles.text}>{props.content}</Text>
+          </View>
+    </View>
 );
 
 export default Row;
