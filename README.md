@@ -10,4 +10,4 @@ Current functionalities:
 Possible functionalities to be implemented in future:
 - Twitter/Instagram integration
 - Favorites/Saved feed
-- Map UI
+- Map UI (AR?)
