@@ -35,7 +35,7 @@ const Row = (props) => (
   <View style={styles.tableRow}>
     <View style={styles.leftTableEntry}>
       <Image
-        source={require(`./Images/logo.png`)}
+        source={imagePaths[parseInt(Math.random() * 6)]}
         style={styles.tableEntryImage}
       />
     </View>
@@ -45,5 +45,15 @@ const Row = (props) => (
     </View>
   </View>
 );
+
+var imagePaths = [
+  require("./Images/img1.png"),
+  require("./Images/img2.png"),
+  require("./Images/img3.png"),
+  require("./Images/img4.png"),
+  require("./Images/img5.png"),
+  require("./Images/img6.png"),
+  require("./Images/img7.png"),
+];
 
 export default Row;
