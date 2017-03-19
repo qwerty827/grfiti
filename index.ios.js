@@ -93,6 +93,7 @@ class grfiti extends Component {
       .catch(error => console.log(error))
       .done();
 
+      this.refs.nav.pop();
   }
 
   _fetchData(lat, long) {
