@@ -1,40 +1,13 @@
-class ListViewScreen extends Component {
-  constructor(props) {
-    super(props);
-
-    const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
-    this.state = {
-      dataSource: ds.cloneWithRows(['row 1', 'row 2', 'row3', 'row 1', 'row 2', 'row3']),
-    };
-  }
-
-  _createTableRow() {
-    return(
-      <View style={styles.tableRow}>
-        <View style={styles.leftTableEntry}>
-          <Image
-            source={ require('./Images/logo.png') }
-            style={styles.tableEntryImage}
-          />
-        </View>
-        <View style={styles.rightTableEntry}>
-          <Text style={styles.h2}>Username</Text>
-          <Text style={styles.text}>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</Text>
-        </View>
-      </View>
-    );
-  }
-
-  render() {
-    return (
-      <ListView
-        style={styles.container}
-        dataSource={this.state.dataSource}
-        renderRow={(data) => this._createTableRow(data)}
-      />
-    );
-  }
-}
+import React, { Component } from 'react';
+import {
+  AppRegistry,
+  StyleSheet,
+  ListView,
+  NavigatorIOS,
+  Text,
+  Image,
+  View,
+} from 'react-native';
 
 var styles = StyleSheet.create({
   text: {
@@ -73,4 +46,42 @@ var styles = StyleSheet.create({
   }
 });
 
-module.exports = ListView;
+class ListViewScreen extends Component {
+  constructor(props) {
+    super(props);
+
+    const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
+    this.state = {
+      dataSource: ds.cloneWithRows(['row 1', 'row 2', 'row3', 'row 1', 'row 2', 'row3']),
+    };
+  }
+
+  _createTableRow() {
+    return(
+      <View style={styles.tableRow}>
+        <View style={styles.leftTableEntry}>
+          <Image
+            source={ require('./Images/logo.png') }
+            style={styles.tableEntryImage}
+          />
+        </View>
+        <View style={styles.rightTableEntry}>
+          <Text style={styles.h2}>Username</Text>
+          <Text style={styles.text}>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</Text>
+        </View>
+      </View>
+    );
+  }
+
+  render() {
+    return (
+      <ListView
+        style={styles.container}
+        dataSource={this.state.dataSource}
+        renderRow={(data) => this._createTableRow(data)}
+      />
+    );
+  }
+}
+
+module.exports = ListViewScreen;

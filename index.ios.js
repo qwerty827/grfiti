@@ -14,6 +14,19 @@ var CreateNewScreen = require('./CreateNew');
 
 'use strict'
 
+var styles = StyleSheet.create({
+  text: {
+    color: 'black',
+    backgroundColor: 'white',
+    fontSize: 30,
+    margin: 80,
+    fontSize: 16,
+  },
+  container: {
+    flex: 1,
+  }
+});
+
 class grfiti extends Component {
   createNewSegueClick() {
     this.refs.nav.push({
