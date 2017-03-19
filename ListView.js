@@ -26,7 +26,7 @@ var styles = StyleSheet.create({
     backgroundColor: '#fff',
     paddingTop: 10,
     paddingBottom: 10
-  }, 
+  },
   h2: {
     fontWeight: '800',
     color: '#333',
@@ -56,37 +56,21 @@ class ListViewScreen extends Component {
   constructor(props) {
     super(props);
 
-    const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
+    console.log("PROPOS", props);
+
+    this.ds = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 });
     this.state = {
-      dataSource: ds.cloneWithRows(['row 1', 'row 2']),
+      dataSource: this.ds.cloneWithRows(this.props.rowData),
     };
   }
 
-  _fetchData() {
-    var requestUrl = 'http://ec2-54-214-229-156.us-west-2.compute.amazonaws.com/content?lat=547761&long=-1370443';
+  componentWillReceiveProps(nextProps) {
 
-    fetch(requestUrl, {
-        method: 'GET',
-        headers: {
-          'Accept': 'application/json',
-          'Content-Type': 'application/json',
-        }
-      })
-      .then((response) => response.json())
-      .then((responseJson) => {
-        console.log(responseJson);
-        this.setState({
-          dataSource: this.state.dataSource.cloneWithRows(responseJson)
-        });
-      })
-      .catch((error) => {
-        console.error(error);
-      })
-      .done();
-    }
+    console.log("PROPSSS");
 
-  componentWillMount() {
-    this._fetchData();
+    this.setState({
+      dataSource: this.ds.cloneWithRows(nextProps.rowData)
+    });
   }
 
   render() {
@@ -94,10 +78,10 @@ class ListViewScreen extends Component {
       <ListView
         style={styles.container}
         dataSource={this.state.dataSource}
-        renderRow={(data) => <TableRow {...data} /> }
-        renderSeparator={(sectionId, rowId) => <View key={rowId} style={styles.separator} /> }
+        renderRow={(data) => <TableRow {...data} />}
+        renderSeparator={(sectionId, rowId) => <View key={rowId} style={styles.separator} />}
         renderHeader={() => <SearchHeader />}
-        />
+      />
     );
   }
 }

@@ -35,17 +35,18 @@ class grfiti extends Component {
   constructor(props) {
     super(props);
 
+    this.ds = new ListView.DataSource({ rowHasChanged: (r1, r2) => true });
+
     this.state = {
       saveText: '',
-      initialPosition: 'unknown',
-      lastPosition: 'unknown',
+      lat: 0,
+      long: 0,
+      rowData: [{ content: "lol", id: 1 }, { content: "lol2", id: 2 }]
     };
   }
 
   updateSaveText(text) {
-
-    this.setState({saveText: text});
-
+    this.setState({ saveText: text });
   }
 
   createNewSegueClick() {
@@ -70,96 +71,124 @@ class grfiti extends Component {
       type: "text",
       content: this.state.saveText,
       location: {
-        lat: Math.floor(this.state.lastPosition.coords.latitude * 11119.4926645),
-        long: Math.floor(this.state.lastPosition.coords.longitude * 11119.4926645),
+        lat: this.state.lat,
+        long: this.state.long,
       }
     }
 
-    fetch('http://ec2-54-214-229-156.us-west-2.compute.amazonaws.com/content',{
-        method: 'POST',
-        headers: {
-          'Accept': 'application/json',
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(content)
-      })
+    fetch('http://ec2-54-214-229-156.us-west-2.compute.amazonaws.com/content', {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(content)
+    })
       .then(response => response.json())
-      .then(responseJson => console.log("GET Response", responseData))
+      .then(responseJson => {
+        this._fetchData(this.state.lat, this.state.long);
+        console.log("GET Response", responseData)
+
+      })
       .catch(error => console.log(error))
       .done();
 
-    
   }
 
-  _fetchData() {
-    // var myRequest = new Request('http://ec2-54-214-229-156.us-west-2.compute.amazonaws.com/content?lat=547761&long=-1370443',{
-    //   method: 'GET',
-    //   headers: {
-    //     'Accept': 'application/json',
-    //     'Content-Type': 'application/json',
-    //   }
-    // });
+  _fetchData(lat, long) {
 
-    fetch('http://ec2-54-214-229-156.us-west-2.compute.amazonaws.com/content?lat=547761&long=-1370443',{
-        method: 'GET',
-        headers: {
-          'Accept': 'application/json',
-          'Content-Type': 'application/json',
-        }
-      })
+    var requestUrl = `http://ec2-54-214-229-156.us-west-2.compute.amazonaws.com/content?lat=${lat}&long=${long}`;
+
+    fetch(requestUrl, {
+      method: 'GET',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+      }
+    })
       .then((response) => response.json())
       .then((responseJson) => {
-        console.log(responseJson);
-        this.state = {
-          dataSource: responseJson.content,
-        };
+
+        this.setState({
+          rowData: responseJson
+        });
+
+        this.refs.nav.replaceAtIndex(
+          {
+            title: 'Feed',
+            rightButtonTitle: '+', //image for plus
+            onRightButtonPress: () => this.createNewSegueClick(),
+            component: ListViewScreen,
+            passProps: {
+              rowData: responseJson
+            }
+          }, 0);
+
+        console.log("AFTER FETCH", this.state.rowData);
+
       })
       .catch((error) => {
         console.error(error);
       })
       .done();
-    }
-
-  componentWillMount() {
-    this._fetchData();
   }
 
   componentDidMount() {
-    navigator.geolocation.getCurrentPosition( (position) => { 
-      var initialPosition = position; 
-      console.log(initialPosition);
-      this.setState({
-        initialPosition: initialPosition,
-        lastPosition: initialPosition}); 
-    }, 
-    (error) => alert(JSON.stringify(error)), 
-    {enableHighAccuracy: true, timeout: 20000, maximumAge: 1000} ); 
+    navigator.geolocation.getCurrentPosition((position) => {
 
-    this.watchID = navigator.geolocation.watchPosition((position) => { 
-      var lastPosition = position; 
-      console.warn(lastPosition);
-      this.setState({lastPosition}); 
+      let lat = Math.floor(position.coords.latitude * 11119.4926645);
+      let long = Math.floor(position.coords.longitude * 11119.4926645);
+
+      console.log(lat, long);
+
+      this.setState({
+        lat: lat,
+        long: long
+      });
+
     },
-    (error) => alert(JSON.stringify(error)), 
-    {enableHighAccuracy: true, timeout: 20000, maximumAge: 1000});
+      (error) => alert(JSON.stringify(error)),
+      { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 });
+
+    this.watchID = navigator.geolocation.watchPosition((position) => {
+
+      let lat = Math.floor(position.coords.latitude * 11119.4926645);
+      let long = Math.floor(position.coords.longitude * 11119.4926645);
+
+      console.warn(lat, long);
+
+      this.setState({
+        lat: lat,
+        long: long
+      });
+
+      this._fetchData(lat, long);
+
+
+    },
+      (error) => alert(JSON.stringify(error)),
+      { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 });
   }
 
   render() {
     return (
       <NavigatorIOS
-        ref = 'nav'
-        style = {styles.container}
-        initialRoute = {{
+        ref='nav'
+        style={styles.container}
+        initialRoute={{
           title: 'Feed',
           rightButtonTitle: '+', //image for plus
           onRightButtonPress: () => this.createNewSegueClick(),
           component: ListViewScreen,
+          passProps: {
+            rowData: this.state.rowData
+          }
         }}
       />
     );
   }
 }
 
-AppRegistry.registerComponent('grfiti', function() { return grfiti });
+AppRegistry.registerComponent('grfiti', function () { return grfiti });
 
 
