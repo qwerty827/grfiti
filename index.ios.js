@@ -38,15 +38,17 @@ class grfiti extends Component {
     this.ds = new ListView.DataSource({ rowHasChanged: (r1, r2) => true });
 
     this.state = {
-      saveText: '',
+      userName: '',
+      messageText: '',
       lat: 0,
       long: 0,
       rowData: [{ content: "lol", id: 1 }, { content: "lol2", id: 2 }]
     };
   }
 
-  updateSaveText(text) {
-    this.setState({ saveText: text });
+  updateSaveText(text, isUserName) {
+    isUserName ? this.setState({ userName: text }) : this.setState({ messageText: text });
+    //console.warn(isUserName ? this.state.userName : this.state.messageText);
   }
 
   createNewSegueClick() {
@@ -64,12 +66,12 @@ class grfiti extends Component {
 
   onRightButtonPress() {
     console.log("SAVE PRESSED!", this.state.saveText);
-
-    // console.log(this.state);
+    console.warn(this.state.userName);
 
     let content = {
       type: "text",
-      content: this.state.saveText,
+      userName: this.state.userName,
+      content: this.state.messageText,
       location: {
         lat: this.state.lat,
         long: this.state.long,

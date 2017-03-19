@@ -35,7 +35,7 @@ const Row = (props) => (
   <View style={styles.tableRow}>
     <View style={styles.leftTableEntry}>
       <Image
-        source={require(`./Images/img${Math.random() * 6 + 1}.png`)}
+        source={require(`./Images/logo.png`)}
         style={styles.tableEntryImage}
       />
     </View>
