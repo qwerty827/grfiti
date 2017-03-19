@@ -37,8 +37,9 @@ class grfiti extends Component {
 
     this.state = {
       saveText: '',
+      initialPosition: 'unknown',
+      lastPosition: 'unknown',
     };
-
   }
 
   updateSaveText(text) {
@@ -63,12 +64,14 @@ class grfiti extends Component {
   onRightButtonPress() {
     console.log("SAVE PRESSED!", this.state.saveText);
 
+    // console.log(this.state);
+
     let content = {
       type: "text",
       content: this.state.saveText,
       location: {
-        lat: 1337,
-        long: 1235
+        lat: Math.floor(this.state.lastPosition.coords.latitude * 11119.4926645),
+        long: Math.floor(this.state.lastPosition.coords.longitude * 11119.4926645),
       }
     }
 
@@ -119,6 +122,26 @@ class grfiti extends Component {
 
   componentWillMount() {
     this._fetchData();
+  }
+
+  componentDidMount() {
+    navigator.geolocation.getCurrentPosition( (position) => { 
+      var initialPosition = position; 
+      console.log(initialPosition);
+      this.setState({
+        initialPosition: initialPosition,
+        lastPosition: initialPosition}); 
+    }, 
+    (error) => alert(JSON.stringify(error)), 
+    {enableHighAccuracy: true, timeout: 20000, maximumAge: 1000} ); 
+
+    this.watchID = navigator.geolocation.watchPosition((position) => { 
+      var lastPosition = position; 
+      console.warn(lastPosition);
+      this.setState({lastPosition}); 
+    },
+    (error) => alert(JSON.stringify(error)), 
+    {enableHighAccuracy: true, timeout: 20000, maximumAge: 1000});
   }
 
   render() {
