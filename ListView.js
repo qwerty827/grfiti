@@ -9,6 +9,8 @@ import {
   View,
 } from 'react-native';
 
+import TableRow from './TableRow';
+
 var styles = StyleSheet.create({
   text: {
     color: '#81CFE0',
@@ -56,29 +58,12 @@ class ListViewScreen extends Component {
     };
   }
 
-  _createTableRow() {
-    return(
-      <View style={styles.tableRow}>
-        <View style={styles.leftTableEntry}>
-          <Image
-            source={ require('./Images/logo.png') }
-            style={styles.tableEntryImage}
-          />
-        </View>
-        <View style={styles.rightTableEntry}>
-          <Text style={styles.h2}>Username</Text>
-          <Text style={styles.text}>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</Text>
-        </View>
-      </View>
-    );
-  }
-
   render() {
     return (
       <ListView
         style={styles.container}
         dataSource={this.state.dataSource}
-        renderRow={(data) => this._createTableRow(data)}
+        renderRow={(data) => <TableRow {...data} />}
       />
     );
   }
