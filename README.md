@@ -1,9 +1,9 @@
 # Grfiti
 
-## What does this do?
-Have you always wanted to leave your mark on somewhere you've been?
+Have you always wanted to leave your mark on somewhere you've been? Now, Grifiti gives you the ability to leave a mark, without any consequences.
 
-Grifiti gives you the ability to leave a mark, without any consequences. With Grfiti, you can make an anonymous post, wherever you are at the moment. In your post, you can include pictures of the area and can leave a message to be seen by other travelers. 
+## What does this do?
+ With Grfiti, you can make an anonymous post, wherever you are at the moment. In your post, you can include pictures of the area and can leave a message to be seen by other travelers. 
 
 As you change locations, your newsfeed automatically refreshes, so that you can stay up to date with the posts around you. If you see a post that you think is spam or abusive, you can report it, and it will be deleted afterwards. Grfiti also allows (insert stuff about twitter feed)
 
