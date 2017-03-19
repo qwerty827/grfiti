@@ -9,7 +9,7 @@ import {
   View
 } from 'react-native';
 
-const MagicNum = Math.PI / 180.0 * 6371000.0 / 100;
+const MagicNum = Math.PI / 180.0 * 6371000.0 / 600;
 var ListViewScreen = require('./ListView');
 var CreateNewScreen = require('./CreateNew');
 
@@ -140,8 +140,10 @@ class grfiti extends Component {
   componentDidMount() {
     navigator.geolocation.getCurrentPosition((position) => {
 
-      let lat = Math.floor(position.coords.latitude * MagicNum);
-      let long = Math.floor(position.coords.longitude * MagicNum);
+      // let lat = Math.floor(position.coords.latitude * MagicNum);
+      // let long = Math.floor(position.coords.longitude * MagicNum);
+      let lat = 49;
+      let long = -120;
 
       console.log(lat, long);
 
@@ -156,8 +158,10 @@ class grfiti extends Component {
 
     this.watchID = navigator.geolocation.watchPosition((position) => {
 
-      let lat = Math.floor(position.coords.latitude * MagicNum);
-      let long = Math.floor(position.coords.longitude * MagicNum);
+      // let lat = Math.floor(position.coords.latitude * MagicNum);
+      // let long = Math.floor(position.coords.longitude * MagicNum);
+      let lat = 49;
+      let long = -120;
 
       this.setState({
         lat: lat,
