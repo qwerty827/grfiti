@@ -9,8 +9,6 @@ import {
   View
 } from 'react-native';
 
-var EventEmitter = require('EventEmitter');
-var Subscribable = require('Subscribable');
 
 var ListViewScreen = require('./ListView');
 var CreateNewScreen = require('./CreateNew');
@@ -33,22 +31,61 @@ var styles = StyleSheet.create({
 });
 
 class grfiti extends Component {
+
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      saveText: '',
+    };
+
+  }
+
+  updateSaveText(text) {
+
+    this.setState({saveText: text});
+
+  }
+
   createNewSegueClick() {
     this.refs.nav.push({
       component: CreateNewScreen,
       title: "Create New",
       rightButtonTitle: "Save",
       onRightButtonPress: () => this.onRightButtonPress(),
-      passProps: {events: eventEmitter},
+      passProps: {
+        updateSaveText: this.updateSaveText.bind(this),
+        saveText: this.saveText
+      },
     })
   }
 
-  componentWillMount() {
-    this.eventEmitter = new EventEmitter();
-  }
-
   onRightButtonPress() {
-    this.eventEmitter.emit('myRightBtnEvent');
+    console.log("SAVE PRESSED!", this.state.saveText);
+
+    let content = {
+      type: "text",
+      content: this.state.saveText,
+      location: {
+        lat: 1337,
+        long: 1235
+      }
+    }
+
+    fetch('http://ec2-54-214-229-156.us-west-2.compute.amazonaws.com/content',{
+        method: 'POST',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(content)
+      })
+      .then(response => response.json())
+      .then(responseJson => console.log("GET Response", responseData))
+      .catch(error => console.log(error))
+      .done();
+
+    
   }
 
   _fetchData() {

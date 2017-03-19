@@ -24,16 +24,9 @@ var styles = StyleSheet.create({
 });
 
 class CreateScreen extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      text: 'Tristan Rice',
-    };
-  }
 
-  Save() {
-      console.log("Hello");
-      console.log(this.state.text);
+  updateText(text) {
+      this.props.updateSaveText(text);
   }
 
   render() {
@@ -42,8 +35,8 @@ class CreateScreen extends Component {
         <Text>text</Text>
         <TextInput 
           style={{height: 500}} 
-          value={this.state.text}
-          onChangeText={(text) => this.setState({text})}
+          value={this.props.saveText}
+          onChangeText={(text) => this.updateText(text)}
           multiline = {true} 
         />
       </View>
