@@ -9,7 +9,7 @@ As you change locations, your newsfeed automatically refreshes, so that you can 
 
 ## What was this built with?
 
-React Native, Node.js, and cockroachdb
+The backend API is written in Node.js, using CockroachDB as a database and Express as the server framework. The API is hosted on an AWS EC2 instance. Our mobile app is written using React Native using Javascript which allows us to target both Android and iOS at the same time.
 
 ## Potential future implementations:
 In the future, we were thinking of adding in a map within our UI. With the map UI, users would be able to see where exactly where they are on the app, and would have the ability to click on points on the map to see their newsfeeds. We were also thinking of adding an AR aspect to the map, with an avatar representing the user, could be seen walking in the map the map. 
