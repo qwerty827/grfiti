@@ -7,6 +7,7 @@ import {
   Text,
   Image,
   View,
+  RefreshControl,
 } from 'react-native';
 
 import TableRow from './TableRow';
@@ -61,6 +62,7 @@ class ListViewScreen extends Component {
     this.ds = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 });
     this.state = {
       dataSource: this.ds.cloneWithRows(this.props.rowData),
+      refreshing: props.refreshing
     };
   }
 
@@ -73,9 +75,20 @@ class ListViewScreen extends Component {
     });
   }
 
+  onRefresh() {
+    this.setState({refreshing: true});
+    this.props._fetchData();
+  }
+
   render() {
     return (
       <ListView
+        refreshControl={
+          <RefreshControl
+          refreshing={false}
+          onRefresh={this.onRefresh.bind(this)}
+          />
+        }
         style={styles.container}
         dataSource={this.state.dataSource}
         renderRow={(data) => <TableRow {...data} />}

@@ -9,7 +9,7 @@ import {
   View
 } from 'react-native';
 
-
+const MagicNum = Math.PI / 180.0 * 6371000.0 / 100;
 var ListViewScreen = require('./ListView');
 var CreateNewScreen = require('./CreateNew');
 
@@ -120,7 +120,9 @@ class grfiti extends Component {
             onRightButtonPress: () => this.createNewSegueClick(),
             component: ListViewScreen,
             passProps: {
-              rowData: responseJson
+              rowData: responseJson,
+              _fetchData: this._fetchData.bind(this, this.state.lat, this.state.long),
+              refreshing: false
             }
           }, 0);
 
@@ -136,8 +138,8 @@ class grfiti extends Component {
   componentDidMount() {
     navigator.geolocation.getCurrentPosition((position) => {
 
-      let lat = Math.floor(position.coords.latitude * 11119.4926645);
-      let long = Math.floor(position.coords.longitude * 11119.4926645);
+      let lat = Math.floor(position.coords.latitude * MagicNum);
+      let long = Math.floor(position.coords.longitude * MagicNum);
 
       console.log(lat, long);
 
@@ -152,10 +154,8 @@ class grfiti extends Component {
 
     this.watchID = navigator.geolocation.watchPosition((position) => {
 
-      let lat = Math.floor(position.coords.latitude * 11119.4926645);
-      let long = Math.floor(position.coords.longitude * 11119.4926645);
-
-      console.warn(lat, long);
+      let lat = Math.floor(position.coords.latitude * MagicNum);
+      let long = Math.floor(position.coords.longitude * MagicNum);
 
       this.setState({
         lat: lat,
@@ -181,7 +181,9 @@ class grfiti extends Component {
           onRightButtonPress: () => this.createNewSegueClick(),
           component: ListViewScreen,
           passProps: {
-            rowData: this.state.rowData
+            rowData: this.state.rowData,
+            _fetchData: this._fetchData.bind(this, this.state.lat, this.state.long),
+            refreshing: false
           }
         }}
       />
